@@ -1,6 +1,6 @@
 import {  component$, type PropFunction, type QRL} from "@builder.io/qwik";
 import { type FieldValues, type FormOptions, useForm } from "@modular-forms/qwik";
-import TestInput from "~/components/test/TestInput";
+import TestInput from "~/components/test/generic/TestInput";
 
 export interface TestFormProps {
   handleSubmit: QRL<PropFunction<() => void>>
