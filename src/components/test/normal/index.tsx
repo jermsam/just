@@ -14,7 +14,8 @@ export const useFormAction = formAction$<EventFormProps>((values) => {
 }, zodForm$(EventFormValidation));
 
 export interface EventFormComponentProps {
-  handleSubmit$?: QRL<SubmitHandler<EventFormProps>>
+  handleSubmit$?: QRL<SubmitHandler<EventFormProps>>,
+  label: string
 }
 
 export default component$((props: EventFormComponentProps ) => {
@@ -29,11 +30,11 @@ export default component$((props: EventFormComponentProps ) => {
     <Form class="w-full max-w-sm p-10 " onSubmit$={props.handleSubmit$}>
       <div class="md:flex md:items-center mb-6 rounded-3xl">
         <Field name="title" type={'string'}>
-          {(field, props) => (
+          {(field, fieldProps) => (
             <div>
               <span class='inline-block font-medium md:text-lg lg:text-xl'>Title </span>
               {
-                <TextInput {...props} type={'text'} value={field.value}/>
+                <TextInput {...fieldProps} label={props.label}  type={'text'} value={field.value}/>
               }
               {field.error && <div>{field.error}</div>}
             </div>
