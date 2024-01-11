@@ -1,5 +1,39 @@
 import { component$, Slot } from "@builder.io/qwik";
 import type { RequestHandler } from "@builder.io/qwik-city";
+import {routeLoader$, z} from '@builder.io/qwik-city';
+import {type InitialValues, Maybe} from '@modular-forms/qwik';
+
+
+export const EventFormValidation  = z.object({
+  title: z.string(),
+  start: z.date().min(new Date(), { message: 'That date is in the past' }).or(z.string()),
+  end:  z.date().min(new Date(), { message: 'That date is in the past' }).or(z.string()).nullish(),
+  color: z.string().nullish(),
+  url: z.string().nullish()
+});
+
+// Note: you can also use z.input
+
+export type EventFormProps = z.input<typeof EventFormValidation>;
+
+
+export interface EventData  {
+  title: string;
+  start: Date | string;
+  end: Maybe<Date>;
+  color: Maybe<string>;
+  url: Maybe<string>;
+}
+
+const initialData: EventData = {
+  title: '',
+  start: new Date().toDateString(),
+  end: undefined,
+  color: 'green',
+  url: undefined
+}
+export const useEventForm = routeLoader$<InitialValues<EventFormProps>>(() => (initialData));
+
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
